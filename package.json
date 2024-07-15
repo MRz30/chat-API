@@ -19,9 +19,9 @@
   "author": "Matheus Rossini",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MRz30/chat-API.git"
+    "url": "https://github.com/MRz30/chat-API/issues"
   },
-  "homepage": "https://github.com/MRz30/chat-API.git",
+  "homepage": "https://github.com/MRz30/chat-API#readme",
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
