@@ -1,22 +1,30 @@
 {
   "name": "chat-api",
   "version": "1.0.0",
-  "description": "��#\u0000C\u0000h\u0000a\u0000t\u0000 \u0000A\u0000P\u0000I\u0000\r\u0000 \u0000",
+  "description": "\"API-CHAT\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/server.js",
+    "test": "echo \"Error: no test specified"
   },
   "repository": {
     "type": "git",
-    "url": "(https://github.com/MRz30/chat-API.git)"
+    "url": "git+https://github.com/MRz30/chat-API.git"
   },
   "keywords": [
-    "api",
-    "chat"
+    "node",
+    "chat",
+    "api"
   ],
   "author": "Matheus Rossini",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MRz30/chat-API.git"
+  },
+  "homepage": "https://github.com/MRz30/chat-API.git",
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0"
   }
 }
