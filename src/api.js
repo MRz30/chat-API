@@ -20,7 +20,7 @@ app.use('/', router.get('/sobre',(req, res, next)=>{
     });
 }));
 
-app.use('/salas', router.get('/salas', async (req, res)=>{
+app.use('/', router.get('/salas', async (req, res)=>{
     const salaControllers = require("./controllers/salaControllers");
     const resp = await salaControllers.get();
     res.status(200).send(resp);
