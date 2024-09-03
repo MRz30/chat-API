@@ -12,7 +12,7 @@ exports.entrar= async (iduser,idsala)=>{
     console.log(user);
     user.sala={_id:sala._id, nome:sala.nome, tipo:sala.tipo};
     if(await usuarioModel.alterarUsuario(user)){
-      return {msg:"OK", timestamp:timestamp=Date.now()};
+      return {msg:"OKK", timestamp:timestamp=Date.now()};
     }
     return false;
 }
