@@ -7,6 +7,7 @@ app.use((req, res, next)=>{
 
 let port = process.env.API_PORT || 5000;
 
-app.listen(port);
-
-console.log("Starting in port " + port)
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`DB HOST: ${process.env.DB_HOST}`);
+});
