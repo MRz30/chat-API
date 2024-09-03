@@ -11,3 +11,5 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
     console.log(`DB HOST: ${process.env.DB_HOST}`);
 });
+
+///ll
