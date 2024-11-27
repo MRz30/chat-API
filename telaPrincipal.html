@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Conversas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Jersey 10", sans-serif;
+        }
+    
+        body, html {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            overflow: hidden;
+        }
+    
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+    
+        .sidebar {
+            width: 35%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.7);
+        }
+    
+        .menu-icon button {
+            background: none;
+            border: none;
+            font-size: 36px;
+            color: #ffffff;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    
+        .contacts {
+        margin-top: 50px;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+
+        .contact {
+            width: 100%;
+            height: 50px;
+            background-color: #0B1C60; /* Azul forte */
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 50px;
+            text-decoration: none;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .contact.active {
+            background-color: #2A5275; /* Azul mais claro para destaque */
+            color: white;
+        }
+    
+        .main-content {
+            flex: 1;
+            position: relative;
+            background-image: url('./imagens/hacker.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .welcome-text {
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            font-size: 2.5rem;
+            text-align: center;
+        }
+    
+        /* Modal estilizado */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+    
+        .modal input, .modal button {
+            width: 90%;
+            margin: 10px 5%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+    
+        .modal button {
+            background: linear-gradient(135deg, #1e90ff, #1c75d8);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+    
+        .modal button:hover {
+            background: linear-gradient(135deg, #1c75d8, #1e90ff);
+        }
+    
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
+    
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="menu-icon">
+                <button onclick="toggleMenu()">&#9776;</button>
+            </div>
+            <div class="contacts">
+                <!-- Lista de salas -->
+                <a href="sala1.html" class="contact">Sala 1</a>
+                <a href="sala2.html" class="contact">Sala 2</a>
+                <a href="sala3.html" class="contact">Sala 3</a>
+                <a href="sala4.html" class="contact">Sala 4</a>
+            </div>
+        </div>
+        <div class="menu-options" id="menu-options">
+            <button onclick="mostrarCriarSala()">Criar Nova Sala</button>
+            <button onclick="sairDaSala()">Sair da Sala</button>
+        </div>
+        <div class="main-content">
+            <div class="welcome-text">
+                <h1>Junte-se a conversas e faça novas conexões.</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="overlay" id="overlay" onclick="fecharModal()"></div>
+    <div class="modal" id="modal">
+        <span class="modal-close" onclick="fecharModal()">&times;</span>
+        <h3>Crie uma nova sala</h3>
+        <input type="text" id="nome-sala" placeholder="Nome">
+        <div>
+            <label>
+                <input type="radio" name="tipo-sala" value="normal" checked> Sala normal
+            </label>
+            <label>
+                <input type="radio" name="tipo-sala" value="privada"> Sala privada
+            </label>
+        </div>
+        <input type="password" id="senha-sala" placeholder="Senha (opcional)">
+        <button onclick="criarSala()">Criar</button>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menuOptions = document.getElementById("menu-options");
+            menuOptions.style.display = menuOptions.style.display === "block" ? "none" : "block";
+        }
+
+        function mostrarCriarSala() {
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("modal").style.display = "block";
+        }
+
+        function fecharModal() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("modal").style.display = "none";
+        }
+
+        function criarSala() {
+            const nome = document.getElementById("nome-sala").value;
+            const tipo = document.querySelector('input[name="tipo-sala"]:checked').value;
+            const senha = document.getElementById("senha-sala").value;
+
+            if (!nome) {
+                alert("Por favor, insira o nome da sala.");
+                return;
+            }
+
+            alert(`Sala criada:\nNome: ${nome}\nTipo: ${tipo}\nSenha: ${senha ? senha : "Nenhuma"}`);
+            fecharModal();
+        }
+
+        function sairDaSala() {
+            alert("Você saiu da sala.");
+            window.location.href = "telaInicial.html";
+        }
+
+        window.onload = function() {
+            const sala = window.location.pathname.split('/').pop(); 
+            const salaLinks = document.querySelectorAll('.contact');
+
+            salaLinks.forEach(link => {
+                if (link.href.includes(sala)) {
+                    link.classList.add('active'); 
+                }
+            });
+        };
+    </script>
+</body>
+</html>
